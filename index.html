@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Método VALE - Painel de Controle</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-main">
+                    <h1 class="main-title">Método VALE</h1>
+                    <p class="subtitle">Valor, Alocação, Lucro e Execução</p>
+                    <div class="nexo-signature">Mais uma iniciativa do <strong>NEXO</strong></div>
+                </div>
+                <button id="help-button" class="help-button" onclick="openHelpModal()">
+                    <span class="help-icon">❓</span>
+                    <span class="help-text">Ajuda</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tela Inicial -->
+    <section id="welcome-screen" class="welcome-screen">
+        <div class="container">
+            <div class="melli-intro">
+                <div class="melli-avatar">
+                    <img src="melli.png" alt="Melli - Mascote do NEXO" class="melli-image">
+                </div>
+                <p class="melli-message">Olá! Sou a Melli, sua assistente de Product Ops! Vamos descobrir o potencial da sua iniciativa? Preencha o campo abaixo para começar a sua análise.</p>
+            </div>
+            <div class="input-group">
+                <label for="initiative-name">Qual o nome da sua iniciativa ou projeto?</label>
+                <input type="text" id="initiative-name" placeholder="Ex: Novo Dashboard de Clientes">
+                <button id="start-analysis" class="btn-primary">Iniciar Análise</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tela de Preenchimento -->
+    <section id="input-screen" class="input-screen hidden">
+        <div class="container">
+            <h2 id="current-initiative">Análise da Iniciativa</h2>
+            
+            <div class="progress-indicator">
+                <div class="progress-step active" data-step="v">V</div>
+                <div class="progress-step" data-step="a">A</div>
+                <div class="progress-step" data-step="l">L</div>
+                <div class="progress-step" data-step="e">E</div>
+                <div class="progress-step" data-step="results">📊</div>
+            </div>
+
+            <!-- Seção V - Valor Proposto -->
+            <section class="section-card" id="section-v">
+                <div class="section-header">
+                    <span class="section-icon">🔥</span>
+                    <h3>V - Valor Proposto (40%)</h3>
+                </div>
+                <div class="section-content">
+                    <!-- Impacto no Cliente -->
+                    <div class="input-item">
+                        <div class="item-header">
+                            <label>Impacto no Cliente</label>
+                            <span class="info-icon" onclick="showTooltip('impacto-cliente')">ⓘ</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" id="impacto-cliente" min="1" max="5" value="3" class="slider">
+                            <div class="slider-labels">
+                                <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+                            </div>
+                        </div>
+                        <div class="current-value">Valor: <span id="impacto-cliente-value">3</span></div>
+                    </div>
+
+                    <!-- Impacto no Negócio -->
+                    <div class="input-item">
+                        <div class="item-header">
+                            <label>Impacto no Negócio</label>
+                            <span class="info-icon" onclick="showTooltip('impacto-negocio')">ⓘ</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" id="impacto-negocio" min="1" max="5" value="3" class="slider">
+                            <div class="slider-labels">
+                                <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+                            </div>
+                        </div>
+                        <div class="current-value">Valor: <span id="impacto-negocio-value">3</span></div>
+                    </div>
+
+                    <!-- Alinhamento Estratégico -->
+                    <div class="input-item">
+                        <div class="item-header">
+                            <label>Alinhamento Estratégico</label>
+                            <span class="info-icon" onclick="showTooltip('alinhamento-estrategico')">ⓘ</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" id="alinhamento-estrategico" min="1" max="5" value="3" class="slider">
+                            <div class="slider-labels">
+                                <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+                            </div>
+                        </div>
+                        <div class="current-value">Valor: <span id="alinhamento-estrategico-value">3</span></div>
+                    </div>
+
+                    <!-- Potencial de Reuso -->
+                    <div class="input-item">
+                        <div class="item-header">
+                            <label>Potencial de Reuso</label>
+                            <span class="info-icon" onclick="showTooltip('potencial-reuso')">ⓘ</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" id="potencial-reuso" min="1" max="5" value="3" class="slider">
+                            <div class="slider-labels">
+                                <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+                            </div>
+                        </div>
+                        <div class="current-value">Valor: <span id="potencial-reuso-value">3</span></div>
+                    </div>
+
+                    <div class="navigation-buttons">
+                        <button class="btn-next" onclick="nextSection('a')">Próximo: Alocação →</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção A - Alocação Necessária -->
+            <section class="section-card hidden" id="section-a">
+                <div class="section-header">
+                    <span class="section-icon">💰</span>
+                    <h3>A - Alocação Necessária (30%)</h3>
+                </div>
+                <div class="section-content">
+                    <div class="input-item">
+                        <label>Esforço do Time (pontos de story)</label>
+                        <input type="number" id="esforco-pontos" placeholder="Ex: 150">
+                    </div>
+                    <div class="input-item">
+                        <label>Valor do Story Point (R$)</label>
+                        <input type="number" id="valor-story-point" placeholder="Ex: 2500" step="0.01">
+                        <small class="field-help">Valor médio que cada ponto de story representa em reais</small>
+                    </div>
+                    <div class="input-item">
+                        <label>Custo Adicional (R$)</label>
+                        <input type="number" id="custo-adicional" placeholder="Ex: 50000" step="0.01">
+                        <small class="field-help">Custos extras: infraestrutura, terceiros, licenças, etc.</small>
+                    </div>
+                    
+                    <div class="navigation-buttons">
+                        <button class="btn-prev" onclick="prevSection('v')">← Anterior: Valor</button>
+                        <button class="btn-next" onclick="nextSection('l')">Próximo: Lucro →</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção L - Lucro/Oportunidade -->
+            <section class="section-card hidden" id="section-l">
+                <div class="section-header">
+                    <span class="section-icon">💎</span>
+                    <h3>L - Lucro/Oportunidade</h3>
+                </div>
+                <div class="section-content">
+                    <div class="input-item">
+                        <label>Qual o principal objetivo desta iniciativa?</label>
+                        <select id="objetivo-tipo" onchange="toggleOpportunityFields()">
+                            <option value="experiencia">Melhorar Indicadores de Experiência</option>
+                            <option value="financeiro">Gerar Receita / Reduzir Custo</option>
+                        </select>
+                    </div>
+
+                    <!-- Pergunta condicional para experiência -->
+                    <div id="experiencia-question" class="input-item">
+                        <label>Você tem dados para estimar o valor financeiro desta melhoria?</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="tem-dados" value="sim" onchange="toggleFinancialFields()">
+                                <span>✅ Sim, tenho estimativas</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="tem-dados" value="nao" onchange="toggleFinancialFields()">
+                                <span>❌ Não, não tenho dados</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Campos para experiência COM dados -->
+                    <div id="experiencia-com-dados" class="hidden">
+                        <div class="input-item">
+                            <label>Número de Clientes Impactados</label>
+                            <input type="number" id="clientes-impactados-exp-dados" placeholder="Ex: 300000">
+                        </div>
+                        <div class="input-item">
+                            <label>Valor Estimado do Impacto (R$)</label>
+                            <input type="number" id="valor-estimado" placeholder="Ex: 500000" step="0.01">
+                            <small class="field-help">Estimativa aproximada do valor financeiro que esta melhoria pode gerar</small>
+                        </div>
+                    </div>
+
+                    <!-- Campos para experiência SEM dados -->
+                    <div id="experiencia-sem-dados" class="hidden">
+                        <div class="info-box">
+                            <p><strong>📊 Análise Qualitativa</strong></p>
+                            <p>Esta iniciativa será avaliada apenas pelos critérios de Valor, Alocação e Execução, sem quantificação financeira.</p>
+                        </div>
+                    </div>
+
+                    <!-- Campos para financeiro -->
+                    <div id="financial-inputs" class="hidden">
+                        <div class="input-item">
+                            <label>Número de Clientes Impactados</label>
+                            <input type="number" id="clientes-impactados" placeholder="Ex: 10000">
+                        </div>
+                        <div class="input-item">
+                            <label>Valor Médio por Cliente (R$)</label>
+                            <input type="number" id="ticket-medio" placeholder="Ex: 5.00" step="0.01">
+                        </div>
+                        <div class="input-item">
+                            <label>Taxa de Adoção Estimada (%)</label>
+                            <input type="number" id="taxa-adocao" placeholder="Ex: 20" min="0" max="100">
+                        </div>
+                    </div>
+
+                    <!-- Campos para experiência com dados -->
+                    <div id="experience-with-data-inputs" class="hidden">
+                        <div class="input-item">
+                            <label>Valor Estimado do Impacto (R$)</label>
+                            <input type="number" id="valor-estimado" placeholder="Ex: 500000">
+                            <small>Estimativa aproximada do valor financeiro que esta melhoria pode gerar</small>
+                        </div>
+                    </div>
+
+                    <!-- Campos antigos de experiência (manter para compatibilidade) -->
+                    <div id="experience-inputs" class="hidden">
+                        <div class="input-item">
+                            <label>Melhoria Estimada no Indicador (%)</label>
+                            <input type="number" id="melhoria-indicador" placeholder="Ex: 15" min="0" max="100">
+                        </div>
+                    </div>
+
+                    <div class="navigation-buttons">
+                        <button class="btn-prev" onclick="prevSection('a')">← Anterior: Alocação</button>
+                        <button class="btn-next" onclick="nextSection('e')">Próximo: Execução →</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção E - Execução Viável -->
+            <section class="section-card hidden" id="section-e">
+                <div class="section-header">
+                    <span class="section-icon">⚡</span>
+                    <h3>E - Execução Viável (30%)</h3>
+                </div>
+                <div class="section-content">
+                    <!-- Dependências Externas -->
+                    <div class="input-item">
+                        <div class="item-header">
+                            <label>Dependências Externas</label>
+                            <span class="info-icon" onclick="showTooltip('dependencias-externas')">ⓘ</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" id="dependencias-externas" min="1" max="5" value="3" class="slider">
+                            <div class="slider-labels">
+                                <span>Muitas</span><span>Algumas</span><span>Poucas</span><span>Mínimas</span><span>Nenhuma</span>
+                            </div>
+                        </div>
+                        <div class="current-value">Valor: <span id="dependencias-externas-value">3</span></div>
+                    </div>
+
+                    <!-- Integrações Sistêmicas -->
+                    <div class="input-item">
+                        <div class="item-header">
+                            <label>Integrações Sistêmicas</label>
+                            <span class="info-icon" onclick="showTooltip('integracoes-sistemicas')">ⓘ</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" id="integracoes-sistemicas" min="1" max="5" value="3" class="slider">
+                            <div class="slider-labels">
+                                <span>4+</span><span>3</span><span>2</span><span>1</span><span>Nenhuma</span>
+                            </div>
+                        </div>
+                        <div class="current-value">Valor: <span id="integracoes-sistemicas-value">3</span></div>
+                    </div>
+
+                    <!-- Fator de Urgência -->
+                    <div class="input-item">
+                        <label>Fator de Urgência</label>
+                        <select id="fator-urgencia">
+                            <option value="nenhuma">Nenhuma urgência especial</option>
+                            <option value="regulatorio">Regulatório (Lei/Compliance)</option>
+                            <option value="ptc">Programa Estratégico (ex: PTC)</option>
+                            <option value="contratual">Compromisso Contratual</option>
+                            <option value="competitivo">Vantagem Competitiva</option>
+                            <option value="sazonalidade">Sazonalidade/Timing</option>
+                        </select>
+                    </div>
+
+                    <div class="navigation-buttons">
+                        <button class="btn-prev" onclick="prevSection('l')">← Anterior: Lucro</button>
+                        <button class="btn-generate" onclick="generateResults()">🚀 Gerar Análise VALE</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+
+    <!-- Tela de Resultados -->
+    <section id="results-screen" class="results-screen hidden">
+        <div class="container">
+            <div class="results-header">
+                <div class="melli-results">
+                    <img src="melli.png" alt="Melli" class="melli-small">
+                    <div class="melli-message-results">
+                        <strong>Análise concluída!</strong> Aqui estão os resultados da sua iniciativa:
+                    </div>
+                </div>
+                <h2 id="results-initiative-name">Resultados da Análise</h2>
+            </div>
+
+            <!-- Score VALE -->
+            <div class="score-card">
+                <div class="score-main">
+                    <div class="score-number" id="score-vale">0.0</div>
+                    <div class="score-label">Score VALE</div>
+                </div>
+                <div class="score-breakdown">
+                    <div class="score-item">
+                        <span class="score-letter">V</span>
+                        <span class="score-value" id="score-v">0.0</span>
+                    </div>
+                    <div class="score-item">
+                        <span class="score-letter">A</span>
+                        <span class="score-value" id="score-a">0.0</span>
+                    </div>
+                    <div class="score-item">
+                        <span class="score-letter">L</span>
+                        <span class="score-value" id="score-l">0.0</span>
+                    </div>
+                    <div class="score-item">
+                        <span class="score-letter">E</span>
+                        <span class="score-value" id="score-e">0.0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recomendação -->
+            <div class="recommendation-card">
+                <div class="recommendation-icon" id="recommendation-icon">🤔</div>
+                <div class="recommendation-text" id="recommendation-text">Calculando recomendação...</div>
+            </div>
+
+            <!-- Métricas Financeiras -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-label">Investimento Total</div>
+                    <div class="metric-value" id="investimento-total">R$ 0</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Valor da Oportunidade</div>
+                    <div class="metric-value" id="valor-oportunidade">R$ 0</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">ROI</div>
+                    <div class="metric-value" id="roi-value">0%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">TIR</div>
+                    <div class="metric-value" id="tir-value">0%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Payback</div>
+                    <div class="metric-value" id="payback-value">0 meses</div>
+                </div>
+            </div>
+
+            <!-- Gráfico Radar -->
+            <div class="radar-container">
+                <canvas id="radar-chart" width="400" height="400"></canvas>
+            </div>
+
+            <!-- Botões de Ação -->
+            <div class="action-buttons">
+                <button class="btn-secondary" onclick="goBackToEdit()">← Voltar</button>
+                <button class="btn-secondary" onclick="goBack()">← Nova Análise</button>
+                <button class="btn-primary" onclick="exportToPDF()">📄 Exportar Relatório PDF</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal de Ajuda -->
+    <div id="help-modal" class="help-modal hidden">
+        <div class="help-modal-content">
+            <div class="help-modal-header">
+                <h2>📚 Guia do Método VALE</h2>
+                <button class="help-modal-close" onclick="closeHelpModal()">×</button>
+            </div>
+            
+            <div class="help-tabs">
+                <button class="help-tab active" onclick="showHelpTab('overview')">Visão Geral</button>
+                <button class="help-tab" onclick="showHelpTab('criteria')">Critérios</button>
+                <button class="help-tab" onclick="showHelpTab('formulas')">Fórmulas</button>
+                <button class="help-tab" onclick="showHelpTab('strategies')">Estratégias</button>
+                <button class="help-tab" onclick="showHelpTab('tips')">Dicas</button>
+            </div>
+            
+            <div class="help-content">
+                <!-- Aba Visão Geral -->
+                <div id="help-overview" class="help-tab-content active">
+                    <h3>📋 RESUMO EXECUTIVO</h3>
+                    <p>O Método VALE é uma ferramenta executiva desenvolvida para avaliar e priorizar projetos de forma objetiva e estruturada. O sistema utiliza quatro critérios fundamentais que geram uma pontuação final automática, facilitando a tomada de decisão em ambientes corporativos.</p>
+                    
+                    <div class="help-section">
+                        <h4>🎯 OBJETIVO PRINCIPAL</h4>
+                        <p>Padronizar a avaliação de projetos, reduzir subjetividade na seleção de iniciativas e otimizar a alocação de recursos organizacionais.</p>
+                    </div>
+                    
+                    <div class="help-section">
+                        <h4>🏆 BENEFÍCIOS</h4>
+                        <div class="benefits-grid">
+                            <div class="benefit-item">
+                                <strong>Decisões mais rápidas e objetivas</strong>
+                            </div>
+                            <div class="benefit-item">
+                                <strong>Redução de riscos em investimentos</strong>
+                            </div>
+                            <div class="benefit-item">
+                                <strong>Histórico auditável de aprovações</strong>
+                            </div>
+                            <div class="benefit-item">
+                                <strong>Alinhamento estratégico organizacional</strong>
+                            </div>
+                            <div class="benefit-item">
+                                <strong>ROI e Payback calculados automaticamente</strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="help-section">
+                        <h4>⚙️ COMO FUNCIONA</h4>
+                        <div class="vale-steps">
+                            <div class="step-item">
+                                <span class="step-letter">V</span>
+                                <div class="step-content">
+                                    <strong>Valor Proposto (40%)</strong>
+                                    <p>Avalia impacto no cliente, negócio, alinhamento estratégico e potencial de reuso</p>
+                                </div>
+                            </div>
+                            <div class="step-item">
+                                <span class="step-letter">A</span>
+                                <div class="step-content">
+                                    <strong>Alocação Necessária (30%)</strong>
+                                    <p>Calcula investimento total baseado em esforço, valor do story point e custos extras</p>
+                                </div>
+                            </div>
+                            <div class="step-item">
+                                <span class="step-letter">L</span>
+                                <div class="step-content">
+                                    <strong>Lucro/Oportunidade (15%)</strong>
+                                    <p>Estima retorno financeiro ou valor da melhoria de experiência</p>
+                                </div>
+                            </div>
+                            <div class="step-item">
+                                <span class="step-letter">E</span>
+                                <div class="step-content">
+                                    <strong>Execução Viável (15%)</strong>
+                                    <p>Avalia dependências externas, integrações e fatores de urgência</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Aba Critérios -->
+                <div id="help-criteria" class="help-tab-content">
+                    <h3>⚖️ CRITÉRIOS DE DECISÃO AUTOMÁTICA</h3>
+                    
+                    <div class="criteria-item green">
+                        <div class="criteria-header">
+                            <span class="criteria-badge green">SCORE 4.0 - 5.0: APROVAÇÃO AUTOMÁTICA</span>
+                        </div>
+                        <ul>
+                            <li><strong>Ação:</strong> Prosseguir imediatamente</li>
+                            <li><strong>Características:</strong> Projetos de alto valor com baixo risco</li>
+                            <li><strong>Aprovação:</strong> Automática pelo sistema</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="criteria-item orange">
+                        <div class="criteria-header">
+                            <span class="criteria-badge orange">SCORE 3.0 - 3.9: REUNIÃO EXECUTIVA</span>
+                        </div>
+                        <ul>
+                            <li><strong>Ação:</strong> Discussão com diretoria</li>
+                            <li><strong>Características:</strong> Projetos promissores que precisam de análise</li>
+                            <li><strong>Aprovação:</strong> Decisão executiva necessária</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="criteria-item red">
+                        <div class="criteria-header">
+                            <span class="criteria-badge red">SCORE 2.0 - 2.9: RETRABALHO</span>
+                        </div>
+                        <ul>
+                            <li><strong>Ação:</strong> Revisar e melhorar proposta</li>
+                            <li><strong>Características:</strong> Projetos com potencial mas problemas identificados</li>
+                            <li><strong>Aprovação:</strong> Requer melhorias antes de nova avaliação</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="criteria-item dark">
+                        <div class="criteria-header">
+                            <span class="criteria-badge dark">SCORE 1.0 - 1.9: NÃO PROSSEGUIR</span>
+                        </div>
+                        <ul>
+                            <li><strong>Ação:</strong> Arquivar ou cancelar</li>
+                            <li><strong>Características:</strong> Projetos inviáveis ou de baixo valor</li>
+                            <li><strong>Aprovação:</strong> Rejeitado automaticamente</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="help-section">
+                        <h4>🚨 PROJETOS ESPECIAIS</h4>
+                        <p>Alguns projetos têm prioridade independente do score:</p>
+                        <ul>
+                            <li><strong>Regulatório:</strong> Execute independente do score para compliance</li>
+                            <li><strong>Programa Estratégico (PTC):</strong> Prioridade alta para estabilidade e crescimento</li>
+                            <li><strong>Compromisso Contratual:</strong> Execute para cumprir obrigações</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Aba Fórmulas -->
+                <div id="help-formulas" class="help-tab-content">
+                    <h3>🧮 FÓRMULAS DE REFERÊNCIA RÁPIDA</h3>
+                    
+                    <div class="formula-section">
+                        <h4>💰 VALOR DA OPORTUNIDADE</h4>
+                        <div class="formula-box">
+                            <code>VALOR DA OPORTUNIDADE = Usuários × Valor Unitário × % Melhoria × 12 meses</code>
+                        </div>
+                    </div>
+                    
+                    <div class="formula-section">
+                        <h4>💸 INVESTIMENTO TOTAL</h4>
+                        <div class="formula-box">
+                            <code>INVESTIMENTO = (Devs × R$ 18.500 + Designers × R$ 15.500 + PMs × R$ 24.000) × Meses + Custos Extras</code>
+                        </div>
+                    </div>
+                    
+                    <div class="formula-section">
+                        <h4>📊 ROI (RETURN ON INVESTMENT)</h4>
+                        <div class="formula-box">
+                            <code>ROI = (Valor da Oportunidade - Investimento) / Investimento × 100%</code>
+                        </div>
+                        <div class="interpretation">
+                            <h5>Interpretação:</h5>
+                            <ul>
+                                <li><strong>&gt; 100%:</strong> Retorno muito alto</li>
+                                <li><strong>50-100%:</strong> Retorno alto</li>
+                                <li><strong>20-50%:</strong> Retorno moderado</li>
+                                <li><strong>&lt; 20%:</strong> Retorno baixo</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="formula-section">
+                        <h4>⏰ PAYBACK (TEMPO DE RETORNO)</h4>
+                        <div class="formula-box">
+                            <code>PAYBACK = Investimento / (Valor da Oportunidade / 12 meses)</code>
+                        </div>
+                        <div class="interpretation">
+                            <h5>Interpretação:</h5>
+                            <ul>
+                                <li><strong>&lt; 6 meses:</strong> Retorno muito rápido</li>
+                                <li><strong>6-12 meses:</strong> Retorno rápido</li>
+                                <li><strong>12-24 meses:</strong> Retorno moderado</li>
+                                <li><strong>&gt; 24 meses:</strong> Retorno lento</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="formula-section">
+                        <h4>🎯 SCORE VALE FINAL</h4>
+                        <div class="formula-box">
+                            <code>SCORE VALE = (V × 0.4) + (A × 0.3) + (L × 0.15) + (E × 0.15)</code>
+                        </div>
+                        <p><em>Para análise qualitativa (sem dados financeiros): (V × 0.5) + (A × 0.3) + (E × 0.2)</em></p>
+                    </div>
+                </div>
+                
+                <!-- Aba Estratégias -->
+                <div id="help-strategies" class="help-tab-content">
+                    <h3>👑 E QUANDO REALMENTE NÃO TEM DADOS?</h3>
+                    
+                    <div class="strategies-section">
+                        <h4>🎯 ESTRATÉGIAS DE ESTIMATIVA</h4>
+                        
+                        <div class="strategy-item">
+                            <h5>1. MÉTODO DA ANALOGIA</h5>
+                            <p>"Projeto Y similar impactou Z usuários, então este deve impactar X"</p>
+                        </div>
+                        
+                        <div class="strategy-item">
+                            <h5>2. MÉTODO DO RANGE</h5>
+                            <p>"Entre 10k e 50k usuários, sendo conservador = 15k"</p>
+                        </div>
+                        
+                        <div class="strategy-item">
+                            <h5>3. MÉTODO DA PROPORÇÃO</h5>
+                            <p>"Se temos 100k usuários totais, feature X deve impactar ~20% = 20k"</p>
+                        </div>
+                        
+                        <div class="strategy-item">
+                            <h5>4. MÉTODO DO BENCHMARK</h5>
+                            <p>"Estudos mostram que funcionalidade X melhora Y em Z%"</p>
+                        </div>
+                    </div>
+                    
+                    <div class="golden-rule">
+                        <h4>🏆 REGRA DE OURO</h4>
+                        <div class="rule-content">
+                            <strong>Estimativa imperfeita &gt; Paralisia por falta de dados perfeitos</strong>
+                            <p>É melhor ter uma estimativa baseada em premissas documentadas do que não ter business case nenhum!</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Aba Dicas -->
+                <div id="help-tips" class="help-tab-content">
+                    <h3>💡 DICAS DE OURO PARA GPMs</h3>
+                    
+                    <div class="tips-section">
+                        <h4>🎯 COMO SER MAIS ASSERTIVO NAS ESTIMATIVAS:</h4>
+                        <div class="tips-grid">
+                            <div class="tip-item">
+                                <strong>Use dados históricos:</strong> Sempre que possível, base-se em projetos similares já executados
+                            </div>
+                            <div class="tip-item">
+                                <strong>Seja conservador:</strong> Melhor subestimar e surpreender positivamente
+                            </div>
+                            <div class="tip-item">
+                                <strong>Documente premissas:</strong> Anote como chegou aos números para futuras referências
+                            </div>
+                            <div class="tip-item">
+                                <strong>Valide com especialistas:</strong> Consulte TLs para estimativas técnicas
+                            </div>
+                            <div class="tip-item">
+                                <strong>Considere riscos:</strong> Adicione buffer de 20-30% para imprevistos
+                            </div>
+                            <div class="tip-item">
+                                <strong>Monitore resultados:</strong> Acompanhe se as estimativas se confirmaram
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tips-section">
+                        <h4>⚠️ PEGADINHAS COMUNS A EVITAR:</h4>
+                        <div class="warning-tips">
+                            <div class="warning-item">
+                                <strong>Não considerar adoção gradual:</strong> Raramente 100% dos usuários adotam imediatamente
+                            </div>
+                            <div class="warning-item">
+                                <strong>Esquecer custos de manutenção:</strong> Todo sistema precisa de manutenção contínua
+                            </div>
+                            <div class="warning-item">
+                                <strong>Ignorar curva de aprendizado:</strong> Equipes novas levam tempo para ganhar velocidade
+                            </div>
+                            <div class="warning-item">
+                                <strong>Não validar com dados reais:</strong> Sempre que possível, teste antes de estimar
+                            </div>
+                            <div class="warning-item">
+                                <strong>Superestimar impacto no curto prazo:</strong> Benefícios geralmente levam tempo para se materializar
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tips-section">
+                        <h4>🚀 DICAS PARA APRESENTAÇÃO EXECUTIVA:</h4>
+                        <ul>
+                            <li>Sempre comece com o problema que está resolvendo</li>
+                            <li>Use dados concretos sempre que possível</li>
+                            <li>Seja transparente sobre incertezas e riscos</li>
+                            <li>Prepare cenários otimista, realista e pessimista</li>
+                            <li>Tenha um plano B se o projeto não performar como esperado</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tooltips -->
+    <div id="tooltip" class="tooltip hidden">
+        <div class="tooltip-content">
+            <button class="tooltip-close" onclick="hideTooltip()">×</button>
+            <div id="tooltip-text"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
